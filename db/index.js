@@ -2,7 +2,6 @@
 const { Sequelize } = require("sequelize");
 require("dotenv").config();
 
-
 const sequelize = new Sequelize({
   dialect: "postgres",
   database: process.env.PGDATABASE,
@@ -16,6 +15,7 @@ const sequelize = new Sequelize({
     },
   },
 });
+
 
 const connectDb = async () => {
   console.log("Checking database connection...");
