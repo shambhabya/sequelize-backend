@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { Ticket } = require("../db/models/models");
+const { Ticket, Agent, Customer } = require("../db/models/models");
 const router = Router();
 
 router.get("/tickets", async (req, res) => {
@@ -70,8 +70,9 @@ router.get("/tickets/:id", async (req, res) => {
   }
 });
 
-router.post("/tickets", async (req, res) => {
+router.post("/tickets/new", async (req, res) => {
   try {
+    console.log(req.body);
     const newTicket = await Ticket.create(req.body);
     res.status(201).json(newTicket);
   } catch (error) {
@@ -97,9 +98,11 @@ router.put("/tickets/update/:id", async (req, res) => {
   }
 });
 
-router.delete("/tickets/delete", async (req, res) => {
+router.post("/tickets/delete", async (req, res) => {
   try {
+    console.log(req.body);
     const { id } = req.body;
+    console.log("idd-", id, typeof id);
 
     if (!id) {
       return res.status(400).json({ error: "Ticket ID is required" });
@@ -121,6 +124,23 @@ router.delete("/tickets/delete", async (req, res) => {
   }
 });
 
+router.get("/agents", async (req, res) => {
+  try {
+    const response = await Agent.findAll();
+    res.send(response);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
+
+router.get("/customers", async (req, res) => {
+  try {
+    const response = await Customer.findAll();
+    res.send(response);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
+});
 router.all("*", (req, res) => {
   res.status(404).send("Not found");
 });

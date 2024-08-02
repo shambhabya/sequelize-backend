@@ -1,6 +1,7 @@
 /*global process */
 const express = require("express");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const { connectDb, sequelize } = require("./db");
 const { Ticket, Customer, Agent } = require("./db/models/models");
 const routes = require("./routes");
@@ -8,6 +9,7 @@ const app = express();
 require("dotenv").config();
 
 app.use(bodyParser.json());
+app.use(cors());
 app.use("/", routes);
 
 const initialTickets = [
